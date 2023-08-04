@@ -23,6 +23,8 @@ function App() {
           return <Square key={idx} />;
         })}
       </div>
+
+      <button className="checkout-btn">Revisar</button>
     </main>
   );
 }
