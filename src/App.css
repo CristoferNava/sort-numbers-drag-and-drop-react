@@ -1,0 +1,75 @@
+:root {
+  --custom-border: 2px solid black;
+}
+
+.main {
+  background-color: red;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.numbers-container {
+  background-color: antiquewhite;
+  height: 100px;
+  width: 300px;
+  border: 2px solid black;
+  margin-bottom: 50px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.number {
+  height: 40px;
+  width: 40px;
+  background-color: aquamarine;
+  border: 1px solid black;
+  border-radius: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.squares-container {
+  background-color: blueviolet;
+  margin-bottom: 30px;
+
+  display: flex;
+}
+
+.square {
+  height: 50px;
+  width: 50px;
+  border-top: var(--custom-border);
+  border-right: var(--custom-border);
+  border-bottom: var(--custom-border);
+  background-color: blue;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.square:first-of-type {
+  border-left: var(--custom-border);
+}
+
+.checkout-btn {
+  border: var(--custom-border);
+  border-radius: 10px;
+  font-size: 24px;
+  background-color: white;
+  padding: 8px 20px;
+}
+
+.number-placed {
+  background-color: rgb(65, 229, 65);
+}
+
+.number-missplaced {
+  background-color: red;
+}
