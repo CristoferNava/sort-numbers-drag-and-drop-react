@@ -3,7 +3,8 @@
 // 3. Implement swap to replace a number in an square
 // 4. Swap elements between squares
 // 5. Return a placed number in a square to the numbers container
-// 6. Move an element
+// 6. Move an element already placed into a square to an empty square
+// 7. Add styles when checking the game
 
 import { useState } from "react";
 
@@ -15,7 +16,7 @@ function App() {
       [2, 2],
       [1, 1],
       [3, 3],
-      [5, 5],
+      [0, 0],
       [4, 4],
     ])
   );
@@ -40,6 +41,32 @@ function App() {
     numbers.set(numberToAdd, numberToAdd);
     setNumbers(new Map(numbers));
     setSquares([...squares]);
+  };
+
+  const checkGame = () => {
+    // Check if there are empty squares
+    for (const square of squares) {
+      if (square == null) {
+        alert("Faltan números por acomodar");
+        return;
+      }
+    }
+
+    // Check that the numbers are in the correct position
+    let gameWon = true;
+    for (let idx = 0; idx < squares.length; idx++) {
+      if (squares[idx] === idx) {
+        console.log(`${idx} is in the correct position`);
+      } else {
+        console.log(`${idx} is in the incorrect position`);
+        gameWon = false;
+      }
+    }
+
+    if (gameWon) {
+      document.body.classList.add("number-placed");
+      alert("Ganaste!");
+    }
   };
 
   return (
@@ -81,7 +108,9 @@ function App() {
         })}
       </div>
 
-      <button className="checkout-btn">Revisar</button>
+      <button className="checkout-btn" onClick={checkGame}>
+        Revisar
+      </button>
     </main>
   );
 }
@@ -105,11 +134,9 @@ const Number = ({ value }) => {
 const Square = ({ id, children, squares, setSquares, numbers, setNumbers }) => {
   const dragOver = (event) => {
     event.preventDefault();
-    console.log("You are dragging over me");
   };
 
   const drop = (event, squareIdx) => {
-    console.log("You dropped over me, ", squareIdx);
     // Check if the square has already a number
     const numberToAdd = parseInt(event.dataTransfer.getData("text/plain"));
     const currentNumberPlaced = squares[squareIdx];
