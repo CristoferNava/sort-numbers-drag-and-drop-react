@@ -7,6 +7,7 @@
 // 7. Add styles when checking the game
 // 9. Genera the order of the numbers randmoly
 // 10. Make a component for the numbers container
+// 11. Make a component for the squares container
 
 import { useState } from "react";
 
@@ -87,41 +88,14 @@ function App() {
         setNumbersCards={setNumbersCards}
       />
 
-      <div className="squares-container">
-        {squares.map((squareVal, idx) => {
-          if (squareVal != null) {
-            return (
-              <Square
-                key={idx}
-                id={idx}
-                squares={squares}
-                setSquares={setSquares}
-                numbers={numbers}
-                setNumbers={setNumbers}
-                numbersCards={numbersCards}
-                setNumbersCards={setNumbersCards}
-              >
-                <Number
-                  value={squareVal}
-                  state={numbersCards.get(squareVal).state}
-                />
-              </Square>
-            );
-          }
-          return (
-            <Square
-              key={idx}
-              id={idx}
-              squares={squares}
-              setSquares={setSquares}
-              numbers={numbers}
-              setNumbers={setNumbers}
-              numbersCards={numbersCards}
-              setNumbersCards={setNumbersCards}
-            />
-          );
-        })}
-      </div>
+      <SquaresContainer
+        squares={squares}
+        setSquares={setSquares}
+        numbers={numbers}
+        setNumbers={setNumbers}
+        numbersCards={numbersCards}
+        setNumbersCards={setNumbersCards}
+      />
 
       <button className="checkout-btn" onClick={checkGame}>
         Revisar
@@ -167,6 +141,53 @@ const NumbersContainer = ({
             key={number}
             value={number}
             state={numbersCards.get(number).state}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+const SquaresContainer = ({
+  squares,
+  setSquares,
+  numbers,
+  setNumbers,
+  numbersCards,
+  setNumbersCards,
+}) => {
+  return (
+    <div className="squares-container">
+      {squares.map((squareVal, idx) => {
+        if (squareVal != null) {
+          return (
+            <Square
+              key={idx}
+              id={idx}
+              squares={squares}
+              setSquares={setSquares}
+              numbers={numbers}
+              setNumbers={setNumbers}
+              numbersCards={numbersCards}
+              setNumbersCards={setNumbersCards}
+            >
+              <Number
+                value={squareVal}
+                state={numbersCards.get(squareVal).state}
+              />
+            </Square>
+          );
+        }
+        return (
+          <Square
+            key={idx}
+            id={idx}
+            squares={squares}
+            setSquares={setSquares}
+            numbers={numbers}
+            setNumbers={setNumbers}
+            numbersCards={numbersCards}
+            setNumbersCards={setNumbersCards}
           />
         );
       })}
