@@ -66,6 +66,10 @@
   padding: 8px 20px;
 }
 
+.checkout-btn:hover {
+  background-color: aquamarine;
+}
+
 .number-placed {
   background-color: rgb(65, 229, 65);
 }
