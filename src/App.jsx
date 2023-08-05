@@ -1,6 +1,7 @@
 // 1. Build the layout
 // 2. Build the basic drag and drop functionality (drag numbers to squares)
 // 3. Implement swap to replace a number in an square
+// 4. Swap elements between squares
 
 import { useState } from "react";
 
@@ -90,12 +91,24 @@ const Square = ({ id, children, squares, setSquares, numbers, setNumbers }) => {
   const drop = (event, squareIdx) => {
     console.log("You dropped over me, ", squareIdx);
     // Check if the square has already a number
+    const numberToAdd = parseInt(event.dataTransfer.getData("text/plain"));
     const currentNumberPlaced = squares[squareIdx];
     if (currentNumberPlaced != null) {
-      // Swap with the new element (add the currentNumber placed back to the numbers container)
-      numbers.set(currentNumberPlaced, currentNumberPlaced);
+      // We have to options:
+      //  1) The number comes from the numbers container
+      //  2) The number comes from another square
+      if (numbers.has(numberToAdd)) {
+        numbers.set(currentNumberPlaced, currentNumberPlaced);
+      } else {
+        // Find in which square idx is the numberToAdd
+        for (let idx = 0; idx < squares.length; idx++) {
+          if (squares[idx] === numberToAdd) {
+            squares[idx] = currentNumberPlaced;
+            break;
+          }
+        }
+      }
     }
-    const numberToAdd = parseInt(event.dataTransfer.getData("text/plain"));
 
     // Add the number to the squareIdx
     squares[squareIdx] = numberToAdd;
