@@ -6,6 +6,7 @@
 // 6. Move an element already placed into a square to an empty square
 // 7. Add styles when checking the game
 // 9. Genera the order of the numbers randmoly
+// 10. Make a component for the numbers container
 
 import { useState } from "react";
 
@@ -51,27 +52,6 @@ function App() {
     new Array([...numbers.values()].length).fill(null)
   );
 
-  const dragOver = (event) => {
-    event.preventDefault();
-  };
-
-  const drop = (event) => {
-    const numberToAdd = parseInt(event.dataTransfer.getData("text/plain"));
-    // Remove it from the squares (in case that is there)
-    for (let idx = 0; idx < squares.length; idx++) {
-      if (squares[idx] === numberToAdd) {
-        squares[idx] = null;
-      }
-    }
-
-    // Add the numberToAdd to numbers
-    numbers.set(numberToAdd, numberToAdd);
-    numbersCards.get(numberToAdd).state = "";
-    setNumbers(new Map(numbers));
-    setSquares([...squares]);
-    setNumbersCards(new Map(numbersCards));
-  };
-
   const checkGame = () => {
     // Check if there are empty squares
     for (const square of squares) {
@@ -82,7 +62,6 @@ function App() {
     }
 
     // Check that the numbers are in the correct position
-    let won = true;
     for (let idx = 0; idx < squares.length; idx++) {
       if (squares[idx] === idx) {
         console.log(`${idx} is in the correct position`);
@@ -90,7 +69,6 @@ function App() {
       } else {
         console.log(`${idx} is in the incorrect position`);
         numbersCards.get(idx).state = "incorrect";
-        won = false;
       }
     }
     setNumbersCards(new Map(numbersCards));
@@ -100,17 +78,14 @@ function App() {
     <main className="main">
       <h1 className="main-title">Ordena los números</h1>
 
-      <div className="numbers-container" onDragOver={dragOver} onDrop={drop}>
-        {[...numbers.values()].map((number) => {
-          return (
-            <Number
-              key={number}
-              value={number}
-              state={numbersCards.get(number).state}
-            />
-          );
-        })}
-      </div>
+      <NumbersContainer
+        numbers={numbers}
+        numbersCards={numbersCards}
+        squares={squares}
+        setNumbers={setNumbers}
+        setSquares={setSquares}
+        setNumbersCards={setNumbersCards}
+      />
 
       <div className="squares-container">
         {squares.map((squareVal, idx) => {
@@ -154,6 +129,50 @@ function App() {
     </main>
   );
 }
+
+const NumbersContainer = ({
+  numbers,
+  numbersCards,
+  squares,
+  setNumbers,
+  setSquares,
+  setNumbersCards,
+}) => {
+  const dragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const drop = (event) => {
+    const numberToAdd = parseInt(event.dataTransfer.getData("text/plain"));
+    // Remove it from the squares (in case that is there)
+    for (let idx = 0; idx < squares.length; idx++) {
+      if (squares[idx] === numberToAdd) {
+        squares[idx] = null;
+      }
+    }
+
+    // Add the numberToAdd to numbers
+    numbers.set(numberToAdd, numberToAdd);
+    numbersCards.get(numberToAdd).state = "";
+    setNumbers(new Map(numbers));
+    setSquares([...squares]);
+    setNumbersCards(new Map(numbersCards));
+  };
+
+  return (
+    <div className="numbers-container" onDragOver={dragOver} onDrop={drop}>
+      {[...numbers.values()].map((number) => {
+        return (
+          <Number
+            key={number}
+            value={number}
+            state={numbersCards.get(number).state}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
 const Number = ({ value, state }) => {
   const dragStart = (event, number) => {
