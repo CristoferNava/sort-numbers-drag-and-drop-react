@@ -2,6 +2,8 @@
 // 2. Build the basic drag and drop functionality (drag numbers to squares)
 // 3. Implement swap to replace a number in an square
 // 4. Swap elements between squares
+// 5. Return a placed number in a square to the numbers container
+// 6. Move an element
 
 import { useState } from "react";
 
@@ -21,12 +23,30 @@ function App() {
     new Array([...numbers.values()].length).fill(null)
   );
 
-  console.log(squares);
+  const dragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const drop = (event) => {
+    const numberToAdd = parseInt(event.dataTransfer.getData("text/plain"));
+    // Remove it from the squares (in case that is there)
+    for (let idx = 0; idx < squares.length; idx++) {
+      if (squares[idx] === numberToAdd) {
+        squares[idx] = null;
+      }
+    }
+
+    // Add the numberToAdd to numbers
+    numbers.set(numberToAdd, numberToAdd);
+    setNumbers(new Map(numbers));
+    setSquares([...squares]);
+  };
+
   return (
     <main className="main">
       <h1 className="main-title">Ordena los números</h1>
 
-      <div className="numbers-container">
+      <div className="numbers-container" onDragOver={dragOver} onDrop={drop}>
         {[...numbers.values()].map((number) => {
           return <Number key={number} value={number} />;
         })}
@@ -107,6 +127,14 @@ const Square = ({ id, children, squares, setSquares, numbers, setNumbers }) => {
             break;
           }
         }
+      }
+    }
+
+    // Already in a square and will move to another one
+    for (let idx = 0; idx < squares.length; idx++) {
+      if (squares[idx] === numberToAdd) {
+        squares[idx] = null;
+        break;
       }
     }
 
