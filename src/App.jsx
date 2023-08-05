@@ -5,38 +5,51 @@
 // 5. Return a placed number in a square to the numbers container
 // 6. Move an element already placed into a square to an empty square
 // 7. Add styles when checking the game
+// 9. Genera the order of the numbers randmoly
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 import "./App.css";
 
+function swap(array, idx1, idx2) {
+  const temp = array[idx1];
+  array[idx1] = array[idx2];
+  array[idx2] = temp;
+}
+
+function shuffleArray(array) {
+  for (let i = 1; i <= 25; i++) {
+    const idx1 = Math.floor(Math.random() * array.length);
+    const idx2 = Math.floor(Math.random() * array.length);
+    swap(array, idx1, idx2);
+  }
+}
+
+function generateNumbersCards() {
+  const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  shuffleArray(numbers);
+  const numbersCards = new Map();
+
+  for (const number of numbers) {
+    numbersCards.set(number, { value: number, state: "" });
+  }
+  return numbersCards;
+}
+
+function generateNumbers(numbersCards) {
+  const numbers = new Map();
+  for (const number of numbersCards.keys()) {
+    numbers.set(number, number);
+  }
+  return numbers;
+}
+
 function App() {
-  const gameWon = useRef(false);
-  const [numbersCards, setNumbersCards] = useState(
-    new Map([
-      [2, { value: 2, state: "" }],
-      [1, { value: 1, state: "" }],
-      [3, { value: 3, state: "" }],
-      [0, { value: 0, state: "" }],
-      [4, { value: 4, state: "" }],
-    ])
-  );
-
-  const [numbers, setNumbers] = useState(
-    new Map([
-      [2, 2],
-      [1, 1],
-      [3, 3],
-      [0, 0],
-      [4, 4],
-    ])
-  );
-
+  const [numbersCards, setNumbersCards] = useState(generateNumbersCards());
+  const [numbers, setNumbers] = useState(generateNumbers(numbersCards));
   const [squares, setSquares] = useState(
     new Array([...numbers.values()].length).fill(null)
   );
-
-  if (gameWon.current) alert("Ganaste!");
 
   const dragOver = (event) => {
     event.preventDefault();
@@ -80,7 +93,6 @@ function App() {
         won = false;
       }
     }
-    if (won) gameWon.current = true;
     setNumbersCards(new Map(numbersCards));
   };
 
@@ -148,7 +160,6 @@ const Number = ({ value, state }) => {
     event.dataTransfer.setData("text/plain", number);
   };
 
-  console.log(state);
   return (
     <div
       className={`number ${state}`}
@@ -225,3 +236,23 @@ const Square = ({
 };
 
 export default App;
+
+// const [numbersCards, setNumbersCards] = useState(
+//   new Map([
+//     [2, { value: 2, state: "" }],
+//     [1, { value: 1, state: "" }],
+//     [3, { value: 3, state: "" }],
+//     [0, { value: 0, state: "" }],
+//     [4, { value: 4, state: "" }],
+//   ])
+// );
+
+// const [numbers, setNumbers] = useState(
+//   new Map([
+//     [2, 2],
+//     [1, 1],
+//     [3, 3],
+//     [0, 0],
+//     [4, 4],
+//   ])
+// );
