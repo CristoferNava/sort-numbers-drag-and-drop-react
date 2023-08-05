@@ -6,11 +6,22 @@
 // 6. Move an element already placed into a square to an empty square
 // 7. Add styles when checking the game
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import "./App.css";
 
 function App() {
+  const gameWon = useRef(false);
+  const [numbersCards, setNumbersCards] = useState(
+    new Map([
+      [2, { value: 2, state: "" }],
+      [1, { value: 1, state: "" }],
+      [3, { value: 3, state: "" }],
+      [0, { value: 0, state: "" }],
+      [4, { value: 4, state: "" }],
+    ])
+  );
+
   const [numbers, setNumbers] = useState(
     new Map([
       [2, 2],
@@ -20,9 +31,12 @@ function App() {
       [4, 4],
     ])
   );
+
   const [squares, setSquares] = useState(
     new Array([...numbers.values()].length).fill(null)
   );
+
+  if (gameWon.current) alert("Ganaste!");
 
   const dragOver = (event) => {
     event.preventDefault();
@@ -39,8 +53,10 @@ function App() {
 
     // Add the numberToAdd to numbers
     numbers.set(numberToAdd, numberToAdd);
+    numbersCards.get(numberToAdd).state = "";
     setNumbers(new Map(numbers));
     setSquares([...squares]);
+    setNumbersCards(new Map(numbersCards));
   };
 
   const checkGame = () => {
@@ -53,20 +69,19 @@ function App() {
     }
 
     // Check that the numbers are in the correct position
-    let gameWon = true;
+    let won = true;
     for (let idx = 0; idx < squares.length; idx++) {
       if (squares[idx] === idx) {
         console.log(`${idx} is in the correct position`);
+        numbersCards.get(idx).state = "correct";
       } else {
         console.log(`${idx} is in the incorrect position`);
-        gameWon = false;
+        numbersCards.get(idx).state = "incorrect";
+        won = false;
       }
     }
-
-    if (gameWon) {
-      document.body.classList.add("number-placed");
-      alert("Ganaste!");
-    }
+    if (won) gameWon.current = true;
+    setNumbersCards(new Map(numbersCards));
   };
 
   return (
@@ -75,7 +90,13 @@ function App() {
 
       <div className="numbers-container" onDragOver={dragOver} onDrop={drop}>
         {[...numbers.values()].map((number) => {
-          return <Number key={number} value={number} />;
+          return (
+            <Number
+              key={number}
+              value={number}
+              state={numbersCards.get(number).state}
+            />
+          );
         })}
       </div>
 
@@ -90,8 +111,13 @@ function App() {
                 setSquares={setSquares}
                 numbers={numbers}
                 setNumbers={setNumbers}
+                numbersCards={numbersCards}
+                setNumbersCards={setNumbersCards}
               >
-                <Number value={squareVal} />
+                <Number
+                  value={squareVal}
+                  state={numbersCards.get(squareVal).state}
+                />
               </Square>
             );
           }
@@ -103,6 +129,8 @@ function App() {
               setSquares={setSquares}
               numbers={numbers}
               setNumbers={setNumbers}
+              numbersCards={numbersCards}
+              setNumbersCards={setNumbersCards}
             />
           );
         })}
@@ -115,14 +143,15 @@ function App() {
   );
 }
 
-const Number = ({ value }) => {
+const Number = ({ value, state }) => {
   const dragStart = (event, number) => {
     event.dataTransfer.setData("text/plain", number);
   };
 
+  console.log(state);
   return (
     <div
-      className="number"
+      className={`number ${state}`}
       draggable={true}
       onDragStart={(e) => dragStart(e, value)}
     >
@@ -131,7 +160,16 @@ const Number = ({ value }) => {
   );
 };
 
-const Square = ({ id, children, squares, setSquares, numbers, setNumbers }) => {
+const Square = ({
+  id,
+  children,
+  squares,
+  setSquares,
+  numbers,
+  setNumbers,
+  numbersCards,
+  setNumbersCards,
+}) => {
   const dragOver = (event) => {
     event.preventDefault();
   };
@@ -165,13 +203,18 @@ const Square = ({ id, children, squares, setSquares, numbers, setNumbers }) => {
       }
     }
 
+    // Clean the current class of the numberCard
     // Add the number to the squareIdx
+
+    numbersCards.get(numberToAdd).state = "";
+
     squares[squareIdx] = numberToAdd;
     // Remove the number of the numbers
     numbers.delete(numberToAdd);
 
     setSquares([...squares]);
     setNumbers(new Map(numbers));
+    setNumbersCards(new Map(numbersCards));
   };
 
   return (

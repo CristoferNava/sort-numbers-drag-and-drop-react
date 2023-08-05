@@ -70,10 +70,10 @@
   background-color: aquamarine;
 }
 
-.number-placed {
+.correct {
   background-color: rgb(65, 229, 65);
 }
 
-.number-missplaced {
+.incorrect {
   background-color: red;
 }
