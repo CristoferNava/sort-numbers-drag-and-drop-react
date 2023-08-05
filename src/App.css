@@ -35,7 +35,7 @@
 }
 
 .squares-container {
-  background-color: blueviolet;
+  /* background-color: blueviolet; */
   margin-bottom: 30px;
 
   display: flex;
@@ -47,7 +47,7 @@
   border-top: var(--custom-border);
   border-right: var(--custom-border);
   border-bottom: var(--custom-border);
-  background-color: blue;
+  /* background-color: blue; */
 
   display: flex;
   justify-content: center;
