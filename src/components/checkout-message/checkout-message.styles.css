@@ -1,0 +1,24 @@
+.checkout-message {
+  height: 100px;
+  width: 300px;
+  border: var(--custom-border);
+  border-radius: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+
+  display: flex;
+  align-items: center;
+}
+
+.message--error {
+  background-color: rgba(255, 38, 38, 0.852);
+}
+
+.message--warning {
+  background-color: rgba(226, 255, 62, 0.852);
+}
+
+.message--success {
+  background-color: rgba(48, 251, 65, 0.852);
+}

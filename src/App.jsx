@@ -10,9 +10,11 @@
 // 11. Make a component for the squares container
 // 12. Implement the context API to avoid passing so many props to the components
 // 13. Move each component to its directory
+// 14. Add checkout game functionality
 
 // Components
 import CheckoutBtn from "./components/checkout-btn/checkout-btn.component";
+import CheckoutMessage from "./components/checkout-message/checkout-message.component";
 import NumbersContainer from "./components/numbers-containers/numbers-container.component";
 import SquaresContainer from "./components/squares-container/squares-container.component";
 
@@ -26,6 +28,10 @@ function App() {
       <NumbersContainer />
       <SquaresContainer />
       <CheckoutBtn />
+      <CheckoutMessage
+        message="Faltan números por agregar"
+        status="message--success"
+      />
     </main>
   );
 }
