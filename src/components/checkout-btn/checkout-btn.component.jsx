@@ -4,6 +4,9 @@ import { useContext } from "react";
 // Contexts
 import { GameContext } from "../../context/game-context";
 
+// Styles
+import "./checkout-btn.styles.css";
+
 const CheckoutBtn = () => {
   const { numbersCards, setNumbersCards, squares } = useContext(GameContext);
   const checkGame = () => {

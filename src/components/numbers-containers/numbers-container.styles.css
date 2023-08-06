@@ -1,0 +1,13 @@
+.numbers-container {
+  background-color: antiquewhite;
+  height: 100px;
+  width: 550px;
+  border: 2px solid black;
+  margin-bottom: 50px;
+  padding: 0 10px;
+
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  align-items: center;
+}

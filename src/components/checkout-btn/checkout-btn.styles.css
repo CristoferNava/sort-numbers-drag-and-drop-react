@@ -1,0 +1,11 @@
+.checkout-btn {
+  border: var(--custom-border);
+  border-radius: 10px;
+  font-size: 24px;
+  background-color: white;
+  padding: 8px 20px;
+}
+
+.checkout-btn:hover {
+  background-color: aquamarine;
+}

@@ -4,6 +4,9 @@ import { useContext } from "react";
 // Contexts
 import { GameContext } from "../../context/game-context";
 
+// Styles
+import "./square.styles.css";
+
 const Square = ({ id, children }) => {
   const {
     numbersCards,

@@ -1,3 +1,6 @@
+// Styles
+import "./number.styles.css";
+
 const Number = ({ value, state }) => {
   const dragStart = (event, number) => {
     event.dataTransfer.setData("text/plain", number);

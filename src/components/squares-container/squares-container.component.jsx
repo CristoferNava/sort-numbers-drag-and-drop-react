@@ -8,6 +8,9 @@ import { GameContext } from "../../context/game-context";
 import Number from "../number/number.component";
 import Square from "../square/square.component";
 
+// Styles
+import "./squares-container.styles.css";
+
 const SquaresContainer = () => {
   const { numbersCards, squares } = useContext(GameContext);
   return (

@@ -13,7 +13,7 @@
 
 // Components
 import CheckoutBtn from "./components/checkout-btn/checkout-btn.component";
-import NumbersContainer from "./components/numbers-containers/numbers-containers.component";
+import NumbersContainer from "./components/numbers-containers/numbers-container.component";
 import SquaresContainer from "./components/squares-container/squares-container.component";
 
 import "./App.css";
@@ -25,7 +25,6 @@ function App() {
 
       <NumbersContainer />
       <SquaresContainer />
-
       <CheckoutBtn />
     </main>
   );

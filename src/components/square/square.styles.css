@@ -1,0 +1,15 @@
+.square {
+  height: 50px;
+  width: 50px;
+  border-top: var(--custom-border);
+  border-right: var(--custom-border);
+  border-bottom: var(--custom-border);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.square:first-of-type {
+  border-left: var(--custom-border);
+}

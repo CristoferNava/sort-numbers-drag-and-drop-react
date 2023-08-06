@@ -7,6 +7,9 @@ import { GameContext } from "../../context/game-context";
 // Components
 import Number from "../number/number.component";
 
+// Styles
+import "./numbers-container.styles.css";
+
 const NumbersContainer = () => {
   const {
     numbersCards,
