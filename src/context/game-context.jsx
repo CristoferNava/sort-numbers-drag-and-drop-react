@@ -38,6 +38,7 @@ export const GameContextProvider = ({ children }) => {
   const [squares, setSquares] = useState(
     new Array([...numbers.values()].length).fill(null)
   );
+  const [showMessage, setShowMessage] = useState({ message: "", status: "" });
 
   const value = {
     numbersCards,
@@ -46,6 +47,8 @@ export const GameContextProvider = ({ children }) => {
     setNumbers,
     squares,
     setSquares,
+    showMessage,
+    setShowMessage,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

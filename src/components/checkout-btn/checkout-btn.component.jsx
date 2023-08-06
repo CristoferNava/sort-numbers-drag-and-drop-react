@@ -8,16 +8,21 @@ import { GameContext } from "../../context/game-context";
 import "./checkout-btn.styles.css";
 
 const CheckoutBtn = () => {
-  const { numbersCards, setNumbersCards, squares } = useContext(GameContext);
+  const { numbersCards, setNumbersCards, squares, setShowMessage } =
+    useContext(GameContext);
   const checkGame = () => {
     // Check if there are empty squares
     for (const square of squares) {
       if (square == null) {
-        alert("Faltan números por acomodar");
+        setShowMessage({
+          message: "¡Faltan números por agregar!",
+          status: "message--warning",
+        });
         return;
       }
     }
 
+    let won = true;
     // Check that the numbers are in the correct position
     for (let idx = 0; idx < squares.length; idx++) {
       if (squares[idx] === idx) {
@@ -25,10 +30,23 @@ const CheckoutBtn = () => {
         numbersCards.get(idx).state = "correct";
       } else {
         console.log(`${idx} is in the incorrect position`);
+        won = false;
         numbersCards.get(idx).state = "incorrect";
       }
     }
+    setShowMessage({
+      message: "¡Números acomodados incorrectamente!",
+      status: "message--error",
+    });
     setNumbersCards(new Map(numbersCards));
+
+    // Check for game won
+    if (won) {
+      setShowMessage({
+        message: "¡Ganaste!",
+        status: "message--success",
+      });
+    }
   };
 
   return (

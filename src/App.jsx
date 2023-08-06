@@ -12,6 +12,12 @@
 // 13. Move each component to its directory
 // 14. Add checkout game functionality
 
+// Library
+import { useContext } from "react";
+
+// Context
+import { GameContext } from "./context/game-context";
+
 // Components
 import CheckoutBtn from "./components/checkout-btn/checkout-btn.component";
 import CheckoutMessage from "./components/checkout-message/checkout-message.component";
@@ -21,6 +27,8 @@ import SquaresContainer from "./components/squares-container/squares-container.c
 import "./App.css";
 
 function App() {
+  const { showMessage } = useContext(GameContext);
+
   return (
     <main className="main">
       <h1 className="main-title">Ordena los números</h1>
@@ -28,10 +36,12 @@ function App() {
       <NumbersContainer />
       <SquaresContainer />
       <CheckoutBtn />
-      <CheckoutMessage
-        message="Faltan números por agregar"
-        status="message--success"
-      />
+      {showMessage.status !== "" && (
+        <CheckoutMessage
+          message={showMessage.message}
+          status={showMessage.status}
+        />
+      )}
     </main>
   );
 }
