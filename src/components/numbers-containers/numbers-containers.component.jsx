@@ -2,7 +2,7 @@
 import { useContext } from "react";
 
 // Contexts
-import { GameContext } from "../../GameContext";
+import { GameContext } from "../../context/game-context";
 
 // Components
 import Number from "../number/number.component";

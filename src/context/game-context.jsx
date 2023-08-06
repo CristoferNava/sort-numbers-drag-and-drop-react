@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { generateNumbersCards, generateNumbers } from "./utils";
+import { generateNumbersCards, generateNumbers } from "../utils";
 
 // const [numbersCards, setNumbersCards] = useState(
 //   new Map([
