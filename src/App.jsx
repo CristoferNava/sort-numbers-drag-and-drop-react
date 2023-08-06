@@ -8,11 +8,15 @@
 // 9. Genera the order of the numbers randmoly
 // 10. Make a component for the numbers container
 // 11. Make a component for the squares container
+// 12. Implement the context API to avoid passing so many props to the components
+// 13. Move each component to its directory
 
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { GameContext } from "./GameContext";
 
 import "./App.css";
 
+/*
 function swap(array, idx1, idx2) {
   const temp = array[idx1];
   array[idx1] = array[idx2];
@@ -45,13 +49,24 @@ function generateNumbers(numbersCards) {
   }
   return numbers;
 }
+*/
 
 function App() {
+  /*
   const [numbersCards, setNumbersCards] = useState(generateNumbersCards());
   const [numbers, setNumbers] = useState(generateNumbers(numbersCards));
   const [squares, setSquares] = useState(
     new Array([...numbers.values()].length).fill(null)
   );
+  */
+  const {
+    numbersCards,
+    setNumbersCards,
+    numbers,
+    setNumbers,
+    squares,
+    setSquares,
+  } = useContext(GameContext);
 
   const checkGame = () => {
     // Check if there are empty squares
@@ -80,21 +95,25 @@ function App() {
       <h1 className="main-title">Ordena los números</h1>
 
       <NumbersContainer
-        numbers={numbers}
+      /*
         numbersCards={numbersCards}
-        squares={squares}
-        setNumbers={setNumbers}
-        setSquares={setSquares}
         setNumbersCards={setNumbersCards}
+        numbers={numbers}
+        setNumbers={setNumbers}
+        squares={squares}
+        setSquares={setSquares}
+        */
       />
 
       <SquaresContainer
-        squares={squares}
-        setSquares={setSquares}
-        numbers={numbers}
-        setNumbers={setNumbers}
+      /*
         numbersCards={numbersCards}
         setNumbersCards={setNumbersCards}
+        numbers={numbers}
+        setNumbers={setNumbers}
+        squares={squares}
+        setSquares={setSquares}
+        */
       />
 
       <button className="checkout-btn" onClick={checkGame}>
@@ -104,14 +123,24 @@ function App() {
   );
 }
 
-const NumbersContainer = ({
-  numbers,
+const NumbersContainer = (/*{
+  
   numbersCards,
-  squares,
-  setNumbers,
-  setSquares,
   setNumbersCards,
-}) => {
+  numbers,
+  setNumbers,
+  squares,
+  setSquares,
+  
+}*/) => {
+  const {
+    numbersCards,
+    setNumbersCards,
+    numbers,
+    setNumbers,
+    squares,
+    setSquares,
+  } = useContext(GameContext);
   const dragOver = (event) => {
     event.preventDefault();
   };
@@ -148,14 +177,22 @@ const NumbersContainer = ({
   );
 };
 
-const SquaresContainer = ({
-  squares,
-  setSquares,
-  numbers,
-  setNumbers,
+const SquaresContainer = (/*{
   numbersCards,
   setNumbersCards,
-}) => {
+  numbers,
+  setNumbers,
+  squares,
+  setSquares,
+}*/) => {
+  const {
+    numbersCards,
+    setNumbersCards,
+    numbers,
+    setNumbers,
+    squares,
+    setSquares,
+  } = useContext(GameContext);
   return (
     <div className="squares-container">
       {squares.map((squareVal, idx) => {
@@ -164,12 +201,14 @@ const SquaresContainer = ({
             <Square
               key={idx}
               id={idx}
+              /*
               squares={squares}
               setSquares={setSquares}
               numbers={numbers}
               setNumbers={setNumbers}
               numbersCards={numbersCards}
               setNumbersCards={setNumbersCards}
+              */
             >
               <Number
                 value={squareVal}
@@ -182,12 +221,14 @@ const SquaresContainer = ({
           <Square
             key={idx}
             id={idx}
-            squares={squares}
-            setSquares={setSquares}
-            numbers={numbers}
-            setNumbers={setNumbers}
+            /*
             numbersCards={numbersCards}
             setNumbersCards={setNumbersCards}
+            numbers={numbers}
+            setNumbers={setNumbers}
+            squares={squares}
+            setSquares={setSquares}
+            */
           />
         );
       })}
@@ -214,13 +255,23 @@ const Number = ({ value, state }) => {
 const Square = ({
   id,
   children,
-  squares,
-  setSquares,
-  numbers,
-  setNumbers,
+  /*
   numbersCards,
   setNumbersCards,
+  numbers,
+  setNumbers,
+  squares,
+  setSquares,
+  */
 }) => {
+  const {
+    numbersCards,
+    setNumbersCards,
+    numbers,
+    setNumbers,
+    squares,
+    setSquares,
+  } = useContext(GameContext);
   const dragOver = (event) => {
     event.preventDefault();
   };
@@ -276,23 +327,3 @@ const Square = ({
 };
 
 export default App;
-
-// const [numbersCards, setNumbersCards] = useState(
-//   new Map([
-//     [2, { value: 2, state: "" }],
-//     [1, { value: 1, state: "" }],
-//     [3, { value: 3, state: "" }],
-//     [0, { value: 0, state: "" }],
-//     [4, { value: 4, state: "" }],
-//   ])
-// );
-
-// const [numbers, setNumbers] = useState(
-//   new Map([
-//     [2, 2],
-//     [1, 1],
-//     [3, 3],
-//     [0, 0],
-//     [4, 4],
-//   ])
-// );
